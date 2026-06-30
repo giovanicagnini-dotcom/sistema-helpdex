@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { Atendimento } from "@/classes/Atendimento";
-import { cadastrarAtendimento, listarAtendimento} from "@/classes/Atendimento";
-import { json } from "stream/consumers";
+import { Atendimento } from "@/app/classes/Atendimento";
+import { cadastrarAtendimento, listarAtendimentos} from "@/app/data/atendimentosData";
 
 export async function GET() {
-    const atendimento = await listarAtendimento()
+    const atendimento = await listarAtendimentos()
     return NextResponse.json(atendimento, { status: 200 });
 }
 
@@ -35,7 +34,8 @@ export async function POST(request: Request) {
         mensagem: "Atendimento cadastrado com sucesso",
         Atendimento: {
             id: idNovoAtendimento,
-            nome: atendimento.nome,
+            status: atendimento.status,
+            
         },
     },
         { status: 201 }
