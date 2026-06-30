@@ -33,13 +33,6 @@ export async function buscarUsuarioPorId(id: number) {
     );
     return (resultado as Usuario[])[0];
 }
-    export async function buscarUsuarioPorEmail(email: string) {
-    const [resultado] = await conexao.query(
-        'SELECT * FROM usuarios WHERE email = ?',
-        [email]
-    );
-    return (resultado as Usuario[])[0];
-}
 
 export async function buscarUsuarioPorCPF(cpf: string) {
     const [resultado] = await conexao.query(

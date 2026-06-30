@@ -63,35 +63,7 @@ export async function PUT(request: Request, { params }: Params) {
             );
         }
 
-       const indiceUsuario = usuario(
-    (usuario) => usuario.id === usuarioId
-);
-
-if (indiceUsuario === -1) {
-    return NextResponse.json(
-        { erro: "usuario nao encontrado" },
-        { status: 404 }
-    );
-}
-
-usuario[indiceUsuario] = usuarioAtualizado;
-
-return NextResponse.json(
-    usuarioAtualizado,
-    { status: 200 }
-);
-    }
-
-    const [indiceUsuario]: any = usuario.findIndex((usuario) => usuario.id === usuarioId);
-
-    if (indiceUsuario === -1) {
-        return NextResponse.json(
-            { erro: "usuario nao encontrado " },
-            { status: 404 }
-        );
-    }
-
-    usuario.splice(indiceUsuario, 1);
+       const resultado = await 
 
     return NextResponse.json(
         { mensagem: "usuario excluido com sucesso" },
