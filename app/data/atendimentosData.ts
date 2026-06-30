@@ -20,9 +20,10 @@ export async function cadastrarAtendimento(atendimento: Atendimento) {
 
 export async function editarAtendimento(atendimento: Atendimento) {
     const [resultado]: any = await conexao.query(
-        'UPDATE atendimentos SET data_inicio = ?, data_fim = ?, prioridade = ? WHERE id = ?',
+        'UPDATE atendimentos SET data_inicio = ?, data_fim = ?, prioridade = ?, status = ? WHERE id = ?',
         [atendimento.data_inicio, 
          atendimento.data_fim,
+         atendimento.status,
          atendimento.prioridade,
          atendimento.id]
     );
@@ -56,6 +57,13 @@ export async function buscarAtendimentosPorData(data_inicio: string, data_fim: s
     const [resultado] = await conexao.query(
         'SELECT * FROM atendimentos WHERE data_inicio >= ? AND data_fim <= ?',
         [data_inicio, data_fim]
+    );
+    return resultado as Atendimento[];
+}
+export async function buscarAtendimentosPorStatus(status: string) {
+    const [resultado] = await conexao.query(
+        'SELECT * FROM atendimentos WHERE status = ?',
+        [status]
     );
     return resultado as Atendimento[];
 }

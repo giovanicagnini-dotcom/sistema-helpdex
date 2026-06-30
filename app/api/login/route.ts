@@ -1,23 +1,23 @@
 import { NextResponse } from "next/server";
 import { Usuario } from "@/app/classes/Usuario";
-import { buscarUsuarioPorEmail } from "@/app/data/usuarioData";
+import { buscarUsuarioPorCPF } from "@/app/data/usuarioData";
 
 
 export async function POST(request: Request) {
     const body = await request.json();
-    const {email, senha} = body;
+    const {CPF, senha} = body;
 
-    if (!email || !senha) {
+    if (!CPF || !senha) {
         return NextResponse.json(
-            { erro: "Email e senha são obrigatórios" },
+            { erro: "CPF e senha são obrigatórios" },
             { status: 400 }
         );
     }
 
-   const usuarioEncontrado = await buscarUsuarioPorEmail(email);
+   const usuarioEncontrado = await buscarUsuarioPorCPF(CPF);
     if (!usuarioEncontrado || usuarioEncontrado.senha !== senha) {
         return NextResponse.json(
-            { erro: "Email ou senha inválidos" },
+            { erro: "CPF ou senha inválidos" },
             { status: 401 }
         );
     }
@@ -26,7 +26,14 @@ export async function POST(request: Request) {
         id: usuarioEncontrado.id,
         nome: usuarioEncontrado.nome,
         email: usuarioEncontrado.email,
+        CPF: usuarioEncontrado.cpf
     };
 
-    const 
+    return NextResponse.json(
+        { mensagem: "Login realizado com sucesso", usuario: usuarioLogado },
+        { status: 200 }
+    );
+}
+
+    
 
