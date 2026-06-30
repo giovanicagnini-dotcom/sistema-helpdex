@@ -2,8 +2,8 @@ import { conexao } from '@lib/conexao';
 import { Atendimento } from '@lib/atendimento';
 
 export async function listarAtendimentos() {
-    const [rows] = await conexao.query('SELECT * FROM atendimentos');
-    return rows as Atendimento[];
+    const [resultado] = await conexao.query('SELECT * FROM atendimentos');
+    return resultado as Atendimento[];
 }
 
 export async function cadastrarAtendimento(atendimento: Atendimento) {
@@ -38,25 +38,25 @@ export async function excluirAtendimento(id: number) {
 }
 
 export async function buscarAtendimentoPorId(id: number) {
-    const [rows] = await conexao.query(
+    const [resultado] = await conexao.query(
         'SELECT * FROM atendimentos WHERE id = ?',
         [id]
     );
-    return (rows as Atendimento[])[0];
+    return (resultado as Atendimento[])[0];
 }
 
 export async function buscarAtendimentosPorPrioridade(prioridade: string) {
-    const [rows] = await conexao.query(
+    const [resultado] = await conexao.query(
         'SELECT * FROM atendimentos WHERE prioridade = ?',
         [prioridade]
     );
-    return rows as Atendimento[];
+    return resultado as Atendimento[];
 }
 export async function buscarAtendimentosPorData(data_inicio: string, data_fim: string) {
-    const [rows] = await conexao.query(
+    const [resultado] = await conexao.query(
         'SELECT * FROM atendimentos WHERE data_inicio >= ? AND data_fim <= ?',
         [data_inicio, data_fim]
     );
-    return rows as Atendimento[];
+    return resultado as Atendimento[];
 }
 
