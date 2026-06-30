@@ -1,23 +1,30 @@
 export class Atendimento {
     id: number;
+    status: String;
     data_inicio: String;
     data_fim: String;
     prioridade: string;
 
     constructor(
         id: number,
+        status: String,
         data_inicio: String,
         data_fim: String, 
         prioridade: string
     ) {
         this.id = id;
+        this.status = status;
         this.data_inicio = data_inicio;
         this.data_fim = data_fim;
         this.prioridade = prioridade;
     }
+
     validar(): string | null {
-        if (!this.id|| this.id === 0) {
+        if (!this.id || this.id === 0) {
             return "ID é obrigatório.";
+        }
+        if (!this.status || this.status.trim() === "") {
+            return "Status é obrigatório.";
         }
         if (!this.data_inicio || this.data_inicio.trim() === "") {
             return "Data de início é obrigatória.";
