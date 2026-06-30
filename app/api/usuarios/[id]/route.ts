@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { Usuario } from "@/classes/Usuario";
-import { usuarios } from "@/data/usuarios";
+import { Usuario } from "@/app/classes/Usuario";
+import { usuarios } from "@/app/data/usuarioData";
 
 type Params = {
     params: Promise<{
@@ -18,16 +18,16 @@ export async function GET(request: Request, { params }: Params) {
         );
     }
 
-    const usuarios = usuarios.find((usuarios) => usuarios.id === usuariosId);
+    const usuario = usuarios.find((usuario: Usuario) => usuario.id === usuariosId);
 
-    if (!usuarios) {
+    if (!usuario) {
         return NextResponse.json(
             { erro: "produto nao encontrado" },
             { status: 404 }
         );
     }
 
-    return NextResponse.json(usuarios);
+    return NextResponse.json(usuario);
 }
 
 export async function PUT(request: Request, { params }: Params) {
@@ -41,7 +41,7 @@ export async function PUT(request: Request, { params }: Params) {
         );
     }
 
-    const indiceUsuario = usuarios.findIndex((usuarios) => usuarios.id === usuariosId);
+    const indiceUsuario = usuarios.findIndex((usuario: Usuario) => usuario.id === usuariosId);
     const body = await request.json();
     if (indiceUsuario === -1) {
         return NextResponse.json(
@@ -50,14 +50,10 @@ export async function PUT(request: Request, { params }: Params) {
         );
     }
 
-        const usuariosAtualizado = new Usuario(
-            UsuarioId,
-            body.nome,
-            Number(body.preco),
-            Number(body.quantidade)
-        );
+        const usuarioAtualizado = usuarios[indiceUsuario];
+        Object.assign(usuarioAtualizado, body, { id: usuariosId });
 
-        const erro = usuariosAtualizado.validar();
+        const erro = usuarioAtualizado.validar();
 
         if (erro) {
             return NextResponse.json(
@@ -66,8 +62,8 @@ export async function PUT(request: Request, { params }: Params) {
             );
         }
 
-        usuarios[indiceUsuario] = usuariosAtualizado;
-        return NextResponse.json(usuariosAtualizado, { status: 200 });
+        usuarios[indiceUsuario] = usuarioAtualizado;
+        return NextResponse.json(usuarioAtualizado, { status: 200 });
 
     }
 
@@ -82,7 +78,7 @@ export async function DELETE(request: Request, { params }: Params) {
         );
     }
 
-    const indiceUsuario = usuarios.findIndex((usuarios) => usuarios.id === usuariosId);
+    const indiceUsuario = usuarios.findIndex((usuario: Usuario) => usuario.id === usuariosId);
 
     if (indiceUsuario === -1) {
         return NextResponse.json(
