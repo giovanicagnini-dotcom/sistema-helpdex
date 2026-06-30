@@ -1,5 +1,5 @@
-import { conexao } from '@lib/conexao';
-import { Atendimento } from '@lib/atendimento';
+import { conexao } from '@/app/lib/conexao';
+import { Atendimento } from '@/app/classes/Atendimento';
 
 export async function listarAtendimentos() {
     const [resultado] = await conexao.query('SELECT * FROM atendimentos');
@@ -19,7 +19,7 @@ export async function cadastrarAtendimento(atendimento: Atendimento) {
 
 
 export async function editarAtendimento(atendimento: Atendimento) {
-    const resultado = await conexao.query(
+    const [resultado]: any = await conexao.query(
         'UPDATE atendimentos SET data_inicio = ?, data_fim = ?, prioridade = ? WHERE id = ?',
         [atendimento.data_inicio, 
          atendimento.data_fim,
@@ -30,7 +30,7 @@ export async function editarAtendimento(atendimento: Atendimento) {
 }
 
 export async function excluirAtendimento(id: number) {
-    const resultado = await conexao.query(
+    const [resultado]:any  = await conexao.query(
         'DELETE FROM atendimentos WHERE id = ?',
         [id]
     );

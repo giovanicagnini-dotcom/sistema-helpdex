@@ -1,5 +1,5 @@
-import {conexao} from '@lib/conexao';
-import {Usuario} from '@lib/usuario';
+import {conexao} from '@/app/lib/conexao';
+import {Usuario} from '@/app/classes/Usuario';
 
 export async function listarUsuarios() {
     const [resultado] = await conexao.query('SELECT * FROM usuarios');
@@ -13,14 +13,14 @@ export async function cadastrarUsuario(usuario: Usuario) {
     return (resultado as any).insertId;
 }   
 export async function editarUsuario(usuario: Usuario) {
-    const [resultado] = await conexao.query(
+    const [resultado]: any = await conexao.query(
         'UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?',
         [usuario.nome, usuario.email, usuario.senha, usuario.id]
     );
     return resultado.affectedRows > 0;
 }
 export async function excluirUsuario(id: number) {
-    const [resultado] = await conexao.query(
+    const [resultado]:any  = await conexao.query(
         'DELETE FROM usuarios WHERE id = ?',
         [id]
     );
