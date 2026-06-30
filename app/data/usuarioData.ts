@@ -14,8 +14,8 @@ export async function cadastrarUsuario(usuario: Usuario) {
 }   
 export async function editarUsuario(usuario: Usuario) {
     const [resultado]: any = await conexao.query(
-        'UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?',
-        [usuario.nome, usuario.email, usuario.senha, usuario.id]
+        'UPDATE usuarios SET nome = ?, email = ?, telefone = ?, cpf = ?, nivel_permissao = ?, setor = ?, senha = ? WHERE id = ?',
+        [usuario.nome, usuario.email, usuario.telefone, usuario.cpf, usuario.nivel_permissao, usuario.setor, usuario.senha, usuario.id]
     );
     return resultado.affectedRows > 0;
 }

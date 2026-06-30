@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Usuario } from "@/app/classes/Usuario";
-import { buscarUsuarioPorId } from "@/app/data/usuarioData";
+import { buscarUsuarioPorId, editarUsuario} from "@/app/data/usuarioData";
 
 type Params = {
     params: Promise<{
@@ -34,27 +34,26 @@ export async function PUT(request: Request, { params }: Params) {
     const { id } = await params;
     const usuarioId = Number(id);
 
-    const body = request.json();
-
     if (isNaN(usuarioId)) {
         return NextResponse.json(
             { erro: "id invalido" },
             { status: 400 }
         );
     }
+    const body = await request.json();
 
-        const usuarioAtualizado = new Usuario(
-            usuarioId,
-            body.nome,
-            body.email,
-            body.telefone,
-            body.cpf,
-            body.nivel_permissao,
-            body.setor,
-            body.senha
-        );
+    const usuarioAtualizado = new Usuario(
+        usuarioId,
+        body.nome,
+        body.email,
+        body.telefone,
+        body.cpf,
+        body.nivel_permissao,
+        body.setor,
+        body.senha
+    );
 
-        const erro = usuarioAtualizado.validar();
+    const erro = usuarioAtualizado.validar();
 
         if (erro) {
             return NextResponse.json(
@@ -63,7 +62,14 @@ export async function PUT(request: Request, { params }: Params) {
             );
         }
 
-       const resultado = await 
+       const resultado = await editarUsuario(usuarioAtualizado);
+
+       if(!resultado){
+        return NextResponse.json(
+            {mensagem:"usuario nao encontrado"},
+            {status:404}
+        );
+       }
 
     return NextResponse.json(
         { mensagem: "usuario excluido com sucesso" },
