@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Atendimento } from "@/app/classes/Atendimento";
-import { buscarAtendimentoPorID, atualizarAtendimento, deletarAtendimento } from "@/app/data/atendimentos";
+import { buscarAtendimentoPorId, editarAtendimento, excluirAtendimento } from "@/app/data/atendimentosData";
 
 type Params = {
     params: Promise<{
@@ -15,7 +15,7 @@ export async function GET(
     const { id } = await params;
     const atendimentoid = Number(id);
 
-    const [atendimento]: any = buscarAtendimentoPorID(atendimentoid);
+    const [atendimento]: any = buscarAtendimentoPorId(atendimentoid);
 
     if (!atendimento) {
         return NextResponse.json(
@@ -50,7 +50,7 @@ export async function PUT(request: Request, { params }: Params) {
         );
     }
 
-    const [resultado]: any = await atualizarAtendimento(atendimentoAtualizado);
+    const [resultado]: any = await editarAtendimento(atendimentoAtualizado);
 
     if (resultado.affectedRows === 0) {
         return NextResponse.json(
@@ -69,7 +69,7 @@ export async function DELETE(
         const { id } = await params;
         const atendimentoid = Number(id);
 
-        const [resultado]: any = await deletarAtendimento(atendimentoid);
+        const [resultado]: any = await excluirAtendimento(atendimentoid);
 
         if (resultado.affectedRows === 0) {
             return NextResponse.json(
