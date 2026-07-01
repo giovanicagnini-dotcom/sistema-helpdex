@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Usuario } from "@/app/classes/Usuario";
 import { buscarUsuarioPorCPF } from "@/app/data/usuarioData";
 
 
@@ -15,22 +14,15 @@ export async function POST(request: Request) {
     }
 
    const usuarioEncontrado = await buscarUsuarioPorCPF(CPF);
-    if (!usuarioEncontrado || usuarioEncontrado.senha !== senha) {
+    if (!usuarioEncontrado) {
         return NextResponse.json(
             { erro: "CPF ou senha inválidos" },
             { status: 401 }
         );
     }
 
-    const usuarioLogado = {
-        id: usuarioEncontrado.id,
-        nome: usuarioEncontrado.nome,
-        email: usuarioEncontrado.email,
-        CPF: usuarioEncontrado.cpf
-    };
-
     return NextResponse.json(
-        { mensagem: "Login realizado com sucesso", usuario: usuarioLogado },
+        { mensagem: "Login realizado com sucesso"},
         { status: 200 }
     );
 }
